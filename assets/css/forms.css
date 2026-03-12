@@ -1,0 +1,143 @@
+/* ============================================================
+   forms.css — Inputs, buttons, tables, picker map, toast
+   ============================================================ */
+
+/* ── Form Group ─────────────────────────────────────────── */
+.form-group { margin-bottom: 1rem; }
+
+.form-group label {
+  display: block;
+  font-size: .75rem; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: .35rem;
+  font-family: var(--fnt-mono); font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  display: block; width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--fnt-body); font-size: .9rem;
+  padding: .65rem .9rem;
+  transition: border-color .15s, box-shadow .15s;
+  resize: vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,151,167,.12);
+}
+
+input[readonly] {
+  opacity: .65; cursor: default;
+  border-style: dashed; background: var(--bg);
+}
+
+/* ── Buttons ────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--teal); color: #fff;
+  font-family: var(--fnt-head); font-weight: 700; font-size: .9rem;
+  border: none; border-radius: 8px; padding: .7rem 1.4rem;
+  cursor: pointer; transition: background .15s, transform .1s;
+}
+.btn-primary:hover  { background: var(--teal2); }
+.btn-primary:active { transform: scale(.98); }
+
+.btn-clear {
+  background: transparent; color: var(--muted);
+  font-family: var(--fnt-head); font-weight: 600; font-size: .85rem;
+  border: 1px solid var(--border); border-radius: 8px; padding: .6rem 1.4rem;
+  cursor: pointer; transition: all .15s;
+}
+.btn-clear:hover { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+
+.btn-sm {
+  font-size: .75rem; font-family: var(--fnt-head); font-weight: 600;
+  padding: .3rem .7rem; border-radius: 6px; border: none; cursor: pointer; transition: background .15s;
+}
+.btn-sm.danger  { background: var(--red-soft);  color: var(--red);  border: 1px solid #fecaca; }
+.btn-sm.danger:hover  { background: #fee2e2; }
+.btn-sm.primary { background: var(--teal-soft); color: var(--teal2); border: 1px solid var(--teal-mid); }
+.btn-sm.primary:hover { background: var(--teal-mid); }
+
+/* ── Data Table ─────────────────────────────────────────── */
+.tbl-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: auto;
+  box-shadow: var(--shadow);
+}
+
+.data-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+
+.data-table th {
+  text-align: left; padding: .75rem .9rem;
+  font-family: var(--fnt-mono); font-size: .71rem;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px solid var(--border);
+  background: var(--surface2); white-space: nowrap;
+}
+.data-table td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border);
+  vertical-align: middle; color: var(--text2);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--surface2); }
+
+/* ── Add Sensor / Picker Layout ─────────────────────────── */
+.add-sensor-wrap {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.picker-map-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow);
+}
+
+#pickerMap {
+  height: 380px; width: 100%;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: crosshair; display: block;
+}
+
+.picker-coords {
+  margin-top: .6rem;
+  font-family: var(--fnt-mono); font-size: .78rem;
+  color: var(--teal); min-height: 1.2em; transition: color .2s;
+}
+.picker-coords.empty { color: var(--muted); }
+
+input[readonly] { opacity: .65; cursor: default; border-style: dashed; background: var(--bg); }
+
+@media (max-width: 900px) {
+  .add-sensor-wrap { grid-template-columns: 1fr; }
+  #pickerMap       { height: 300px; }
+}
+
+/* ── Toast ──────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 9px; padding: .8rem 1.2rem;
+  font-size: .85rem; font-family: var(--fnt-body);
+  box-shadow: var(--shadow-md);
+  transform: translateY(20px); opacity: 0;
+  transition: all .25s; pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.ok  { border-color: var(--teal-mid); color: var(--teal2); background: var(--teal-soft); }
+.toast.err { border-color: #fecaca;         color: var(--red);   background: var(--red-soft); }

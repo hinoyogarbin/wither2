@@ -1,0 +1,62 @@
+/* ============================================================
+   tokens.css — Design tokens, reset, base
+   ============================================================ */
+
+/* ── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Design Tokens ──────────────────────────────────────── */
+:root {
+  --bg:          #f0f4f8;
+  --surface:     #ffffff;
+  --surface2:    #f5f8fb;
+  --border:      #dde3ea;
+  --border2:     #c8d2dc;
+  --teal:        #0097a7;
+  --teal2:       #00838f;
+  --teal-soft:   #e0f7fa;
+  --teal-mid:    #b2ebf2;
+  --amber:       #d97706;
+  --amber-soft:  #fff8e1;
+  --red:         #e53e3e;
+  --red-soft:    #fff5f5;
+  --blue:        #2563eb;
+  --blue-soft:   #eff6ff;
+  --text:        #1a2332;
+  --text2:       #374151;
+  --muted:       #6b7a90;
+  --shadow-sm:   0 1px 2px rgba(0,0,0,.06);
+  --shadow:      0 1px 4px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.05);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.10);
+  --sidebar:     220px;
+  --hdr:         56px;
+  --radius:      12px;
+  --fnt-head:    'Syne', sans-serif;
+  --fnt-body:    'DM Sans', sans-serif;
+  --fnt-mono:    'DM Mono', monospace;
+}
+
+/* ── Google Fonts ───────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+/* ── Base ───────────────────────────────────────────────── */
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--fnt-body);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
