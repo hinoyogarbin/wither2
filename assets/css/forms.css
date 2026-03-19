@@ -2,44 +2,35 @@
    forms.css — Inputs, buttons, tables, picker map, toast
    ============================================================ */
 
-/* ── Form Group ─────────────────────────────────────────── */
+/* ── Form Group ──────────────────────────────────────────────── */
 .form-group { margin-bottom: 1rem; }
-
 .form-group label {
-  display: block;
-  font-size: .75rem; letter-spacing: .07em;
+  display: block; font-size: .75rem; letter-spacing: .07em;
   text-transform: uppercase; color: var(--muted);
-  margin-bottom: .35rem;
-  font-family: var(--fnt-mono); font-weight: 500;
+  margin-bottom: .35rem; font-family: var(--fnt-mono); font-weight: 500;
 }
-
 .form-group input,
 .form-group textarea,
 .form-group select {
   display: block; width: 100%;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
   font-family: var(--fnt-body); font-size: .9rem;
-  padding: .65rem .9rem;
-  transition: border-color .15s, box-shadow .15s;
-  resize: vertical;
+  padding: .65rem .9rem; transition: border-color .15s, box-shadow .15s; resize: vertical;
 }
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-  outline: none;
-  border-color: var(--teal);
+  outline: none; border-color: var(--teal);
   box-shadow: 0 0 0 3px rgba(0,151,167,.12);
 }
+input[readonly] { opacity: .65; cursor: default; border-style: dashed; background: var(--bg); }
 
-input[readonly] {
-  opacity: .65; cursor: default;
-  border-style: dashed; background: var(--bg);
-}
+/* ── Form Row (side-by-side fields) ──────────────────────────── */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
 
-/* ── Buttons ────────────────────────────────────────────── */
+/* ── Buttons ─────────────────────────────────────────────────── */
 .btn-primary {
   background: var(--teal); color: #fff;
   font-family: var(--fnt-head); font-weight: 700; font-size: .9rem;
@@ -61,22 +52,19 @@ input[readonly] {
   font-size: .75rem; font-family: var(--fnt-head); font-weight: 600;
   padding: .3rem .7rem; border-radius: 6px; border: none; cursor: pointer; transition: background .15s;
 }
-.btn-sm.danger  { background: var(--red-soft);  color: var(--red);  border: 1px solid #fecaca; }
+.btn-sm.danger  { background: var(--red-soft);  color: var(--red);   border: 1px solid #fecaca; }
 .btn-sm.danger:hover  { background: #fee2e2; }
 .btn-sm.primary { background: var(--teal-soft); color: var(--teal2); border: 1px solid var(--teal-mid); }
 .btn-sm.primary:hover { background: var(--teal-mid); }
+.btn-sm.warn    { background: var(--amber-soft); color: var(--amber); border: 1px solid #fde68a; }
+.btn-sm.warn:hover    { background: #fef3c7; }
 
-/* ── Data Table ─────────────────────────────────────────── */
+/* ── Data Table ──────────────────────────────────────────────── */
 .tbl-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: auto;
-  box-shadow: var(--shadow);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: auto; box-shadow: var(--shadow);
 }
-
 .data-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-
 .data-table th {
   text-align: left; padding: .75rem .9rem;
   font-family: var(--fnt-mono); font-size: .71rem;
@@ -91,44 +79,32 @@ input[readonly] {
 .data-table tr:last-child td { border-bottom: none; }
 .data-table tr:hover td { background: var(--surface2); }
 
-/* ── Add Sensor / Picker Layout ─────────────────────────── */
+/* ── Add Sensor / Picker Layout ──────────────────────────────── */
 .add-sensor-wrap {
   display: grid;
   grid-template-columns: 1fr 360px;
-  gap: 1rem;
-  align-items: start;
+  gap: 1rem; align-items: start;
 }
-
 .picker-map-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.1rem 1.2rem;
-  box-shadow: var(--shadow);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem 1.2rem; box-shadow: var(--shadow);
 }
-
 #pickerMap {
-  height: 380px; width: 100%;
-  border-radius: 8px; overflow: hidden;
-  border: 1px solid var(--border);
-  cursor: crosshair; display: block;
+  height: 380px; width: 100%; border-radius: 8px;
+  border: 1px solid var(--border); cursor: crosshair; display: block;
 }
-
 .picker-coords {
-  margin-top: .6rem;
-  font-family: var(--fnt-mono); font-size: .78rem;
+  margin-top: .6rem; font-family: var(--fnt-mono); font-size: .78rem;
   color: var(--teal); min-height: 1.2em; transition: color .2s;
 }
 .picker-coords.empty { color: var(--muted); }
 
-input[readonly] { opacity: .65; cursor: default; border-style: dashed; background: var(--bg); }
-
 @media (max-width: 900px) {
   .add-sensor-wrap { grid-template-columns: 1fr; }
-  #pickerMap       { height: 300px; }
+  #pickerMap { height: 280px; }
 }
 
-/* ── Toast ──────────────────────────────────────────────── */
+/* ── Toast ───────────────────────────────────────────────────── */
 .toast {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
   background: var(--surface); border: 1px solid var(--border);

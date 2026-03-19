@@ -2,28 +2,20 @@
    modals.css — Detail modal + Leaflet popup overrides
    ============================================================ */
 
-/* ── Overlay ────────────────────────────────────────────── */
+/* ── Overlay ─────────────────────────────────────────────────── */
 .modal-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  z-index: 9000;
-  background: rgba(15,23,42,.3);
-  backdrop-filter: blur(4px);
-  align-items: center;
-  justify-content: center;
+  display: none; position: fixed; inset: 0; z-index: 9000;
+  background: rgba(15,23,42,.3); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
 }
 .modal-overlay.open { display: flex; }
 
-/* ── Box ────────────────────────────────────────────────── */
+/* ── Box ─────────────────────────────────────────────────────── */
 .modal-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.6rem;
-  width: 100%; max-width: 440px;
-  position: relative;
-  animation: modalIn .2s ease;
-  box-shadow: var(--shadow-md);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.6rem;
+  width: 100%; max-width: 440px; position: relative;
+  animation: modalIn .2s ease; box-shadow: var(--shadow-md);
 }
 @keyframes modalIn {
   from { transform: translateY(14px); opacity: 0; }
@@ -32,42 +24,27 @@
 
 .modal-close {
   position: absolute; top: .85rem; right: .9rem;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 1rem; line-height: 1;
-  cursor: pointer;
-  border-radius: 6px;
-  width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .15s;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--muted); font-size: 1rem; cursor: pointer;
+  border-radius: 6px; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center; transition: all .15s;
 }
 .modal-close:hover { background: var(--red-soft); border-color: var(--red); color: var(--red); }
 
 .modal-title {
-  font-family: var(--fnt-head);
-  font-weight: 700; font-size: 1.05rem;
-  margin-bottom: 1.2rem;
-  color: var(--text);
-  padding-right: 2.2rem;
+  font-family: var(--fnt-head); font-weight: 700; font-size: 1.05rem;
+  margin-bottom: 1.2rem; color: var(--text); padding-right: 2.2rem;
 }
 
-/* ── Reading values ─────────────────────────────────────── */
+/* ── Reading values ──────────────────────────────────────────── */
 .modal-reading { display: flex; gap: .8rem; margin-bottom: 1.2rem; }
-
 .modal-reading .m-val {
-  flex: 1;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: .8rem 1rem;
-  text-align: center;
+  flex: 1; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: .8rem 1rem; text-align: center;
 }
-
 .m-val .mv-label {
-  font-size: .7rem; text-transform: uppercase;
-  letter-spacing: .07em; color: var(--muted);
-  font-family: var(--fnt-mono); margin-bottom: .25rem;
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--muted); font-family: var(--fnt-mono); margin-bottom: .25rem;
 }
 .m-val .mv-num { font-family: var(--fnt-head); font-size: 1.6rem; font-weight: 700; }
 .m-val .mv-num.temp { color: var(--amber); }
@@ -77,40 +54,27 @@
 .modal-mini-chart { margin-top: 1rem; }
 .modal-mini-chart canvas { max-height: 120px; }
 
-/* ── Leaflet Popup ──────────────────────────────────────── */
+/* ── Leaflet Popup ───────────────────────────────────────────── */
 .leaflet-popup-content-wrapper {
-  background: var(--surface)  !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 10px !important;
-  box-shadow: var(--shadow-md) !important;
-  color: var(--text) !important;
+  background: var(--surface)  !important; border: 1px solid var(--border) !important;
+  border-radius: 10px !important; box-shadow: var(--shadow-md) !important; color: var(--text) !important;
 }
 .leaflet-popup-tip { background: var(--surface) !important; }
 
-.popup-inner       { padding: .3rem; min-width: 180px; }
-.popup-inner h4    { font-family: var(--fnt-head); font-weight: 700; font-size: .95rem; margin-bottom: .5rem; color: var(--teal); }
-.popup-kv          { display: flex; justify-content: space-between; font-size: .82rem; margin: .2rem 0; }
-.popup-kv .k       { color: var(--muted); }
-.popup-kv .v       { font-family: var(--fnt-mono); color: var(--text2); }
-.popup-kv .v.temp  { color: var(--amber); }
-.popup-kv .v.hum   { color: var(--blue); }
-.popup-ts          { font-size: .7rem; color: var(--muted); margin-top: .4rem; font-family: var(--fnt-mono); }
-/* ── Popup More Info button ──────────────────────────────── */
+.popup-inner      { padding: .3rem; min-width: 190px; }
+.popup-inner h4   { font-family: var(--fnt-head); font-weight: 700; font-size: .95rem; margin-bottom: .4rem; color: var(--teal); }
+.popup-kv         { display: flex; justify-content: space-between; font-size: .82rem; margin: .2rem 0; }
+.popup-kv .k      { color: var(--muted); }
+.popup-kv .v      { font-family: var(--fnt-mono); color: var(--text2); }
+.popup-kv .v.temp { color: var(--amber); }
+.popup-kv .v.hum  { color: var(--blue); }
+.popup-ts         { font-size: .7rem; color: var(--muted); margin-top: .35rem; font-family: var(--fnt-mono); }
+
+/* More Info button */
 .popup-more-btn {
-  display: block;
-  width: 100%;
-  margin-top: .75rem;
-  padding: .45rem .8rem;
-  background: var(--teal);
-  color: #fff;
-  font-family: var(--fnt-head);
-  font-weight: 700;
-  font-size: .8rem;
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  transition: background .15s, transform .1s;
-  letter-spacing: .02em;
+  display: block; width: 100%; margin-top: .75rem;
+  padding: .45rem .8rem; background: var(--teal); color: #fff;
+  font-family: var(--fnt-head); font-weight: 700; font-size: .8rem;
+  border: none; border-radius: 7px; cursor: pointer; transition: background .15s;
 }
-.popup-more-btn:hover  { background: var(--teal2); }
-.popup-more-btn:active { transform: scale(.97); }
+.popup-more-btn:hover { background: var(--teal2); }
