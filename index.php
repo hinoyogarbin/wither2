@@ -315,7 +315,7 @@ const IS_ADMIN   = <?= $isAdmin   ? 'true' : 'false' ?>;
 const IS_MANAGER = <?= $isManager ? 'true' : 'false' ?>;
 const CAN_MANAGE = <?= $canManage ? 'true' : 'false' ?>;
 const IS_LOGGED  = <?= $loggedIn  ? 'true' : 'false' ?>;
-const SIMULATE   = true;
+const SIMULATE   = false; // false = real ESP32, true = demo/simulation mode
 const INTERVAL   = 5000;
 </script>
 <script src="assets/js/api.js"></script>

@@ -1,13 +1,22 @@
 <?php
-// includes/config.php — DB connection + role helpers
+// ============================================================
+// includes/config.php — Database, session, role helpers
+// ============================================================
 
+// ── Database credentials ──────────────────────────────────────
 define('DB_HOST',    'localhost');
-define('DB_USER',    'root');
-define('DB_PASS',    '');
+define('DB_USER',    'root');        // ← change for production
+define('DB_PASS',    '');            // ← change for production
 define('DB_NAME',    'wither_db');
 define('DB_CHARSET', 'utf8mb4');
 
-// ── Database ─────────────────────────────────────────────────
+// ── ESP32 API key ─────────────────────────────────────────────
+// Change this to any long random string.
+// The same key must be pasted into your ESP32 Arduino sketch.
+// Example: 'wither-esp32-key-a7f3k9x2'
+define('ESP32_API_KEY', 'wither-esp32-secret-key-change-me');
+
+// ── Database connection ───────────────────────────────────────
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo === null) {
@@ -22,7 +31,7 @@ function getDB(): PDO {
     return $pdo;
 }
 
-// ── Session ───────────────────────────────────────────────────
+// ── Session helpers ───────────────────────────────────────────
 function startSession(): void {
     if (session_status() === PHP_SESSION_NONE) session_start();
 }
@@ -37,11 +46,11 @@ function getRole(): string {
     return $_SESSION['role'] ?? 'guest';
 }
 
-function isAdmin(): bool    { return getRole() === 'admin'; }
-function isManager(): bool  { return getRole() === 'manager'; }
-function canManage(): bool  { return in_array(getRole(), ['admin','manager']); }
+function isAdmin(): bool   { return getRole() === 'admin'; }
+function isManager(): bool { return getRole() === 'manager'; }
+function canManage(): bool { return in_array(getRole(), ['admin', 'manager']); }
 
-// ── Guards ────────────────────────────────────────────────────
+// ── Route guards ──────────────────────────────────────────────
 function requireLogin(): void {
     if (!isLoggedIn()) {
         header('Location: /auth/login.php');
@@ -59,17 +68,17 @@ function requireManager(): void {
     if (!canManage()) jsonResponse(['error' => 'Forbidden'], 403);
 }
 
-// ── Logging ───────────────────────────────────────────────────
+// ── Activity logging ──────────────────────────────────────────
 function logActivity(?int $userId, string $action, string $detail = ''): void {
     try {
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         getDB()->prepare(
             'INSERT INTO user_activity_logs (user_id, action, detail, ip_address) VALUES (?,?,?,?)'
         )->execute([$userId, $action, $detail, $ip]);
-    } catch (Throwable) { /* non-critical */ }
+    } catch (Throwable) { /* non-critical, never crash on logging */ }
 }
 
-// ── Response ──────────────────────────────────────────────────
+// ── JSON response helper ──────────────────────────────────────
 function jsonResponse(mixed $data, int $status = 200): never {
     http_response_code($status);
     header('Content-Type: application/json');

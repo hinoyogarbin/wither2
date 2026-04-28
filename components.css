@@ -1,0 +1,141 @@
+/* ============================================================
+   components.css — Stat cards, map, sensor list, chart cards,
+                    status badges, role tags
+   ============================================================ */
+
+/* ── Stat Grid ──────────────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: .9rem;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem 1rem;
+  position: relative;
+  box-shadow: var(--shadow);
+  transition: box-shadow .15s, transform .15s;
+  overflow: hidden;
+}
+.stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--accent, var(--teal));
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.stat-card .label {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--muted); margin-bottom: .45rem; font-family: var(--fnt-mono);
+}
+.stat-card .value  { font-family: var(--fnt-head); font-size: 2rem; font-weight: 700; line-height: 1; color: var(--text); }
+.stat-card .unit   { font-size: .82rem; color: var(--muted); margin-left: .15rem; }
+.stat-card .trend  { font-size: .72rem; color: var(--muted); margin-top: .4rem; }
+
+/* ── Map Wrapper ─────────────────────────────────────────────── */
+.map-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+#map { height: 460px; width: 100%; display: block; }
+
+/* ── Sensor List ─────────────────────────────────────────────── */
+.sensor-list { display: flex; flex-direction: column; gap: .6rem; }
+
+.sensor-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: border-color .15s, box-shadow .15s, transform .12s;
+}
+.sensor-row:hover { border-color: var(--teal); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.sensor-row.inactive { opacity: .65; }
+
+.sensor-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--teal); flex-shrink: 0;
+  animation: pulse 2.2s infinite;
+}
+.sensor-dot.off { background: var(--muted); animation: none; }
+
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0   rgba(0,151,167,.45); }
+  50%      { box-shadow: 0 0 0 7px rgba(0,151,167,0); }
+}
+
+.sensor-row .sname { flex: 1; font-size: .9rem; font-weight: 500; color: var(--text2); }
+.sensor-vals { display: flex; gap: .7rem; font-family: var(--fnt-mono); font-size: .83rem; }
+.val-temp { color: var(--amber); font-weight: 500; }
+.val-hum  { color: var(--blue);  font-weight: 500; }
+
+/* ── Sensor status tag (in list rows) ──────────────────────── */
+.sensor-status-tag {
+  font-size: .68rem; font-family: var(--fnt-mono); font-weight: 700;
+  padding: .15rem .5rem; border-radius: 99px; flex-shrink: 0;
+}
+.sensor-status-tag.on  { background: var(--teal-soft); color: var(--teal2); border: 1px solid var(--teal-mid); }
+.sensor-status-tag.off { background: #f3f4f6; color: var(--muted); border: 1px solid var(--border); }
+
+/* ── Status Badge (tables + popups) ────────────────────────── */
+.status-badge {
+  display: inline-block;
+  font-size: .7rem; font-family: var(--fnt-mono); font-weight: 600;
+  padding: .18rem .55rem; border-radius: 99px; white-space: nowrap;
+}
+.status-badge.active   { background: var(--teal-soft); color: var(--teal2); border: 1px solid var(--teal-mid); }
+.status-badge.inactive { background: #f3f4f6; color: var(--muted); border: 1px solid var(--border); }
+
+/* ── Role Tag (user table) ──────────────────────────────────── */
+.role-tag {
+  display: inline-block;
+  font-size: .7rem; font-family: var(--fnt-mono); font-weight: 700;
+  padding: .18rem .55rem; border-radius: 99px;
+}
+.role-tag.admin   { background: var(--amber-soft); color: var(--amber); border: 1px solid #fde68a; }
+.role-tag.manager { background: var(--blue-soft);  color: var(--blue);  border: 1px solid #bfdbfe; }
+.role-tag.user    { background: var(--teal-soft);  color: var(--teal2); border: 1px solid var(--teal-mid); }
+
+/* ── Action tag (logs table) ────────────────────────────────── */
+.action-tag {
+  display: inline-block;
+  font-family: var(--fnt-mono); font-size: .75rem;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--teal2); padding: .1rem .45rem; border-radius: 5px;
+}
+
+/* ── Chart Cards ─────────────────────────────────────────────── */
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; }
+
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow);
+}
+.chart-card .chart-title {
+  font-size: .75rem; font-family: var(--fnt-mono); color: var(--muted);
+  margin-bottom: .9rem; text-transform: uppercase; letter-spacing: .07em;
+}
+.chart-card canvas { max-height: 200px; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .chart-grid { grid-template-columns: 1fr; }
+  .stat-grid  { grid-template-columns: repeat(2, 1fr); }
+  #map        { height: 320px; }
+}
