@@ -10,11 +10,8 @@ define('DB_PASS',    '');            // ← change for production
 define('DB_NAME',    'wither_db');
 define('DB_CHARSET', 'utf8mb4');
 
-// ── ESP32 API key ─────────────────────────────────────────────
-// Change this to any long random string.
-// The same key must be pasted into your ESP32 Arduino sketch.
-// Example: 'wither-esp32-key-a7f3k9x2'
-define('ESP32_API_KEY', 'wither-esp32-secret-key-change-me');
+
+define('ESP32_API_KEY', 'wither-nbsc-k7x2m9p4q1r8');
 
 // ── Database connection ───────────────────────────────────────
 function getDB(): PDO {

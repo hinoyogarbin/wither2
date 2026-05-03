@@ -121,7 +121,9 @@ if ($loggedIn) {
 
     <!-- ═══ DASHBOARD PANEL ═════════════════════════════════════ -->
     <section class="panel" id="dashboard-panel">
-      <div class="section-title">Dashboard <span>Updated every 5 s</span></div>
+      <div class="section-title">Dashboard <span id="liveStatus" class="live-status waiting">○ Waiting for sensor…</span></div>
+
+      <!-- Summary row -->
       <div class="stat-grid" id="statGrid">
         <div class="stat-card" style="--accent:var(--amber)">
           <div class="label">Avg Temperature</div>
@@ -143,13 +145,22 @@ if ($loggedIn) {
           <div class="value" style="font-size:1rem;padding-top:.4rem" id="lastUpdate">—</div>
         </div>
       </div>
-      <div class="chart-grid" style="margin-top:1.1rem">
+
+      <!-- Per-sensor cards -->
+      <div class="section-subtitle">Live Readings per Sensor</div>
+      <div class="sensor-card-grid" id="sensorCardGrid">
+        <div class="sensor-card-placeholder">Waiting for sensor data…</div>
+      </div>
+
+      <!-- Charts -->
+      <div class="section-subtitle" style="margin-top:1.4rem">Trends (last 20 readings)</div>
+      <div class="chart-grid">
         <div class="chart-card">
-          <div class="chart-title">Temperature — all sensors (last 20)</div>
+          <div class="chart-title">Average temperature — all sensors</div>
           <canvas id="tempChart"></canvas>
         </div>
         <div class="chart-card">
-          <div class="chart-title">Humidity — all sensors (last 20)</div>
+          <div class="chart-title">Average humidity — all sensors</div>
           <canvas id="humChart"></canvas>
         </div>
       </div>
@@ -315,8 +326,8 @@ const IS_ADMIN   = <?= $isAdmin   ? 'true' : 'false' ?>;
 const IS_MANAGER = <?= $isManager ? 'true' : 'false' ?>;
 const CAN_MANAGE = <?= $canManage ? 'true' : 'false' ?>;
 const IS_LOGGED  = <?= $loggedIn  ? 'true' : 'false' ?>;
-const SIMULATE   = false; // false = real ESP32, true = demo/simulation mode
-const INTERVAL   = 5000;
+const SIMULATE   = true; // false = real ESP32, true = demo/simulation mode
+const INTERVAL   = 12000; // poll every 12s (ESP32 sends every 10s)
 </script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/map.js"></script>

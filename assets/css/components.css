@@ -139,3 +139,174 @@
   .stat-grid  { grid-template-columns: repeat(2, 1fr); }
   #map        { height: 320px; }
 }
+
+/* ── Live status indicator (dashboard title) ─────────────────── */
+.live-status {
+  font-size: .75rem;
+  font-family: var(--fnt-mono);
+  font-weight: 500;
+  margin-left: .5rem;
+  padding: .15rem .55rem;
+  border-radius: 99px;
+  display: inline-block;
+  transition: all .3s;
+}
+.live-status.live {
+  background: var(--teal-soft);
+  color: var(--teal2);
+  border: 1px solid var(--teal-mid);
+  animation: livePulse 2s infinite;
+}
+.live-status.waiting {
+  background: var(--amber-soft);
+  color: var(--amber);
+  border: 1px solid #fde68a;
+}
+.live-status.idle {
+  background: var(--surface2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .6; }
+}
+
+/* ── Section subtitle ────────────────────────────────────────── */
+.section-subtitle {
+  font-size: .8rem;
+  font-family: var(--fnt-mono);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin: 1.2rem 0 .7rem;
+}
+
+/* ── Per-sensor dashboard card grid ─────────────────────────── */
+.sensor-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: .85rem;
+}
+
+.sensor-card-placeholder {
+  color: var(--muted);
+  font-size: .85rem;
+  font-family: var(--fnt-mono);
+  padding: .5rem 0;
+}
+
+.sensor-dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem .85rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: box-shadow .15s, transform .12s, border-color .15s;
+  position: relative;
+  overflow: hidden;
+}
+.sensor-dash-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--teal);
+}
+.sensor-dash-card.offline {
+  opacity: .6;
+}
+
+/* top accent line */
+.sensor-dash-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--teal);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.sensor-dash-card.offline::before { background: var(--muted); }
+
+/* header row */
+.sdc-header {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin-bottom: .85rem;
+}
+.sdc-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.sdc-dot.on  { background: var(--teal); animation: pulse 2.2s infinite; }
+.sdc-dot.off { background: var(--muted); }
+
+.sdc-name {
+  flex: 1;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sdc-status {
+  font-size: .65rem;
+  font-family: var(--fnt-mono);
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+.sdc-status.on  { background: var(--teal-soft);  color: var(--teal2); border: 1px solid var(--teal-mid); }
+.sdc-status.off { background: var(--surface2);   color: var(--muted); border: 1px solid var(--border); }
+
+/* readings row */
+.sdc-readings {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .6rem;
+}
+.sdc-val { flex: 1; text-align: center; }
+.sdc-num {
+  font-family: var(--fnt-head);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.sdc-unit {
+  font-size: .7rem;
+  color: var(--muted);
+  margin-top: .1rem;
+}
+.sdc-label {
+  font-size: .65rem;
+  font-family: var(--fnt-mono);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--muted);
+  margin-top: .15rem;
+}
+.sdc-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.sdc-time {
+  font-size: .68rem;
+  color: var(--muted);
+  font-family: var(--fnt-mono);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: .55rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .sensor-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sdc-num { font-size: 1.3rem; }
+}
