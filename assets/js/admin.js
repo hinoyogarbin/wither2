@@ -241,3 +241,89 @@ async function deleteUser(id) {
   if (res?.message) { showToast('User deleted.', 'ok'); loadUsersTable(); }
   else showToast(res?.error ?? 'Error.', 'err');
 }
+
+// ── Data Requests ───────────────────────────────────────────
+async function loadRequestsTable() {
+  const data = await apiFetch('api/requests.php');
+  if (!data) { showToast('Failed to load requests.', 'err'); return; }
+  
+  const tbody = document.getElementById('requestsTable');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="color:#6b7a90;text-align:center;padding:1.5rem">No requests found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(r => {
+    const statusColor = r.status === 'pending' ? '#f97316' : r.status === 'approved' ? '#16a34a' : '#ef4444';
+    const statusBg = r.status === 'pending' ? 'rgba(249,115,22,.1)' : r.status === 'approved' ? 'rgba(22,163,74,.1)' : 'rgba(239,68,68,.1)';
+    const createdDate = new Date(r.created_at).toLocaleDateString();
+    
+    return `
+      <tr>
+        <td style="font-weight:500">${r.username}</td>
+        <td>${r.marker_name}</td>
+        <td style="color:#6b7a90;font-size:.82rem;max-width:300px;overflow:hidden;text-overflow:ellipsis">${r.reason || '<em>—</em>'}</td>
+        <td>
+          <span class="status-badge" style="background:${statusBg};color:${statusColor};font-weight:500">
+            ${r.status.charAt(0).toUpperCase() + r.status.slice(1)}
+          </span>
+        </td>
+        <td style="font-size:.78rem;color:#6b7a90">${createdDate}</td>
+        <td>
+          ${r.status === 'pending' ? `
+            <button class="btn-sm primary" onclick="approveRequest(${r.id}, '${r.marker_name}')">Approve</button>
+            <button class="btn-sm danger" onclick="rejectRequest(${r.id}, '${r.marker_name}')" style="margin-left:.25rem">Reject</button>
+          ` : r.status === 'approved' ? `
+            <button class="btn-sm primary" onclick="downloadCSV(${r.id}, '${r.marker_name}')" style="margin-right:.25rem">📥 CSV</button>
+            <span style="font-size:.75rem;color:#6b7a90">Expires: ${new Date(r.expires_at).toLocaleDateString()}</span>
+          ` : `
+            <span style="font-size:.78rem;color:#6b7a90">Rejected</span>
+          `}
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+async function approveRequest(id, markerName) {
+  const notes = prompt(`Approve data access request for "${markerName}"?\n\nOptional notes:`, '');
+  if (notes === null) return;
+
+  const res = await apiFetch('api/requests.php', {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, action: 'approve', notes: notes.trim() })
+  });
+  
+  if (res?.message) { 
+    showToast('✓ ' + res.message, 'ok'); 
+    loadRequestsTable(); 
+  } else { 
+    showToast('✗ ' + (res?.error || 'Error'), 'err'); 
+  }
+}
+
+async function rejectRequest(id, markerName) {
+  const reason = prompt(`Reject data access request for "${markerName}"?\n\nReason (optional):`, '');
+  if (reason === null) return;
+
+  const res = await apiFetch('api/requests.php', {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, action: 'reject', notes: reason.trim() })
+  });
+  
+  if (res?.message) { 
+    showToast('✓ ' + res.message, 'ok'); 
+    loadRequestsTable(); 
+  } else { 
+    showToast('✗ ' + (res?.error || 'Error'), 'err'); 
+  }
+}
+
+function downloadCSV(requestId, markerName) {
+  const link = document.createElement('a');
+  link.href = `api/export.php?request_id=${requestId}`;
+  link.download = `${markerName}_${new Date().toISOString().split('T')[0]}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast('✓ Downloading CSV...', 'ok');
+}

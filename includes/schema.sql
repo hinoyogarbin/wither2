@@ -53,6 +53,30 @@ INSERT INTO markers (name, latitude, longitude, created_by) VALUES
   ('SWDC',               8.36024500, 124.86747400, 1);
 
 -- ============================================================
+-- SENSOR DATA REQUESTS (user requests → admin approves)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS sensor_data_requests (
+    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id      INT UNSIGNED NOT NULL,
+    marker_id    INT UNSIGNED NOT NULL,
+    status       ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+    reason       TEXT,
+    approved_by  INT UNSIGNED NULL,
+    approved_at  DATETIME NULL,
+    rejected_at  DATETIME NULL,
+    expires_at   DATETIME NULL,
+    created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_sdr_user     (user_id),
+    INDEX idx_sdr_marker   (marker_id),
+    INDEX idx_sdr_status   (status),
+    INDEX idx_sdr_created  (created_at),
+    CONSTRAINT fk_sdr_user    FOREIGN KEY (user_id)      REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_sdr_marker  FOREIGN KEY (marker_id)    REFERENCES markers(id) ON DELETE CASCADE,
+    CONSTRAINT fk_sdr_approver FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL,
+    UNIQUE KEY uk_sdr_pending (user_id, marker_id, status) -- Prevent duplicate pending requests
+);
+
+-- ============================================================
 -- SENSOR READINGS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS sensor_readings (
