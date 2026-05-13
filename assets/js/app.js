@@ -18,6 +18,7 @@ function onPanelActivate(id) {
   if (id === 'sensors-panel')  loadSensorList();
   if (CAN_MANAGE && id === 'manage-panel')   { loadMarkersTable(); initPickerMap(); }
   if (CAN_MANAGE && id === 'logs-panel')     loadLogs();
+  if (CAN_MANAGE && id === 'requests-panel') loadRequestsTable();
   if (IS_ADMIN   && id === 'analytics-panel') loadAnalytics();
   if (IS_ADMIN   && id === 'users-panel')     loadUsersTable();
 }

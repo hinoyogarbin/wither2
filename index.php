@@ -83,6 +83,10 @@ if ($loggedIn) {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       Activity Logs
     </div>
+    <div class="nav-item" data-panel="requests-panel">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Data Requests
+    </div>
     <?php endif; ?>
 
     <?php if ($isAdmin): ?>
@@ -174,6 +178,8 @@ if ($loggedIn) {
       </div>
     </section>
 
+
+
     <?php if ($canManage): ?>
     <!-- ═══ MANAGE SENSORS PANEL ════════════════════════════════ -->
     <section class="panel" id="manage-panel">
@@ -229,6 +235,17 @@ if ($loggedIn) {
         <table class="data-table">
           <thead><tr><th>User</th><th>Action</th><th>Detail</th><th>IP</th><th>Time</th></tr></thead>
           <tbody id="logsTable"><tr><td colspan="5" style="color:#6b7a90">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══ DATA REQUESTS PANEL ════════════════════════════════ -->
+    <section class="panel" id="requests-panel">
+      <div class="section-title">Data Requests <span>Approve or reject user requests</span></div>
+      <div class="tbl-wrap">
+        <table class="data-table">
+          <thead><tr><th>User</th><th>Sensor</th><th>Reason</th><th>Status</th><th>Requested</th><th>Actions</th></tr></thead>
+          <tbody id="requestsTable"><tr><td colspan="6" style="color:#6b7a90">Loading…</td></tr></tbody>
         </table>
       </div>
     </section>
@@ -313,12 +330,50 @@ if ($loggedIn) {
       </div>
     </div>
     <div class="modal-ts" id="mTs">—</div>
-    <div class="modal-mini-chart"><canvas id="miniChart"></canvas></div>
+    <div class="modal-mini-chart" id="miniChartContainer"><canvas id="miniChart"></canvas></div>
+    <div id="modalButtonContainer" style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;"></div>
   </div>
 </div>
 
 <!-- ─── TOAST ───────────────────────────────────────────────── -->
 <div class="toast" id="toast"></div>
+
+<!-- ─── REQUEST DATA MODAL ──────────────────────────────────── -->
+<div class="modal-overlay" id="requestModal" onclick="closeRequestModal(event)">
+  <div class="modal-box" style="max-width: 500px;">
+    <button class="modal-close" onclick="closeRequestModal()">×</button>
+    <div class="modal-title">Request Data Export</div>
+    <div style="font-size: 0.85rem; color: #6b7a90; margin-bottom: 1rem;">Request formal access to export sensor data for your purposes. An administrator will review and approve your request.</div>
+    
+    <form id="requestForm" onsubmit="submitDataRequest(event)">
+      <div class="form-group">
+        <label>Sensor</label>
+        <input type="text" id="req-sensor" readonly style="background: #f3f4f6; cursor: not-allowed;">
+      </div>
+
+      <div class="form-group">
+        <label>Purpose / Reason</label>
+        <textarea id="req-reason" placeholder="Why do you need this data?" style="min-height: 80px; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.375rem;"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Data From (optional)</label>
+          <input type="date" id="req-date-from">
+        </div>
+        <div class="form-group">
+          <label>Data To (optional)</label>
+          <input type="date" id="req-date-to">
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: flex-end;">
+        <button type="button" class="btn-sm ghost" onclick="closeRequestModal()">Cancel</button>
+        <button type="submit" class="btn-sm primary">Submit Request</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script>
 /* ── PHP → JS config ── */
